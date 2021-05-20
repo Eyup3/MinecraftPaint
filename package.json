@@ -1,0 +1,27 @@
+{
+  "name": "minecraftpaint",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000M\u0000i\u0000n\u0000e\u0000c\u0000r\u0000a\u0000f\u0000t\u0000P\u0000a\u0000i\u0000n\u0000t\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eyup3/MinecraftPaint.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Eyup3/MinecraftPaint/issues"
+  },
+  "homepage": "https://github.com/Eyup3/MinecraftPaint#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

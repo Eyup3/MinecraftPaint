@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #export-wrap {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <div id='export-wrap'>
+        <h1>
+            <input id='color' type='color' />
+            <button id='export'>Export</button>
+        </h1>
+        <textarea id='data' rows='12' cols=100></textarea>
+    </div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
