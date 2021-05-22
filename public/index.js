@@ -118,8 +118,18 @@ function exportImage() {
         drawPos[p].height = pixelHeight;
         p++;
     }
-    var resp = 'var img = { layers: ' + JSON.stringify(drawPos) + '}';
+    var resp = JSON.stringify(drawPos);
     document.getElementById('data').innerHTML = resp;
+
+    fetch('http://192.168.2.169:3000', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        },
+        body: resp
+    }).then(res => res.json())
+        .then(res => console.log(res));
 }
 
 
