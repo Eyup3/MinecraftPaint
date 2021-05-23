@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 app.get("/", (req, res) => {
-    res.send("main")
+    res.sendFile(`${__dirname}\\public\\index.html`)
     console.log("Website served")
 })
 
