@@ -5,8 +5,10 @@ server.on("connection", ws => {
     console.log("Websocket connection")
 
     ws.on("message", msg => {
-        console.log(`Websocket message ${msg} and broadcasted to all clients`)
-        server.broadcast(msg)
+
+        const processed = require('./DataProcessing')(msg)
+        console.log(processed)
+        server.broadcast("123321123")
     })
 
 });
@@ -17,3 +19,4 @@ server.broadcast = function broadcast(msg) {
     });
 };
 module.exports = { socket, server }
+
