@@ -18,7 +18,9 @@ ngrok http 8080
 
 Now start Minecraft with ComputerCraft or Tweaked(Updatet CC)
 
-Now Type in a mining turtle
+
+
+Now Fuel and type in a mining turtle
 
 ```
 pastebin get nQJe3WQP controller
