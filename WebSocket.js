@@ -8,7 +8,7 @@ server.on("connection", ws => {
 
         const processed = require('./DataProcessing')(msg)
         console.log(processed)
-        server.broadcast("123321123")
+        server.broadcast(JSON.stringify(processed))
     })
 
 });

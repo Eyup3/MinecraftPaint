@@ -1,56 +1,88 @@
-local ws,err = http.websocket(args[1])
+os.loadAPI("json")
+local direction = 0
 
+local MyX = 0
+local MyZ = 0
+
+local function turnRight(dir)
+    while (direction ~= dir) do
+        turtle.turnRight()
+        direction = direction + 1
+        if (direction > 3) then
+            direction = 0
+        end
+    end
+end
+
+-- MainFunction
+local function MoveToThisPosition(x, y)
+    -- Correct X-axis
+    while (MyX < x) do
+        turnRight(0)
+        turtle.forward()
+        MyX = MyX + 1
+    end
+
+    while (MyX > x) do
+        turnRight(0)
+        turtle.back()
+        MyX = MyX - 1
+    end
+
+    -- Correct Z-axis
+    while (MyZ > y) do
+        turnRight(3)
+        turtle.forward()
+        MyZ = MyZ - 1
+    end
+
+    while (MyZ < y) do
+        turnRight(1)
+        turtle.forward()
+        MyZ = MyZ + 1
+    end
+end
+
+-- Start
+
+-- IMPORTANT THE URL NEEDS A "ws://" instead a "http://" because that activates a weboscket
+local ws, err = http.websocket(arg[1])
+if err then
+    print(err)
+end
 if ws then
     while true do
         local msg = ws.receive()
-        print(msg)
+        local obj = json.decode(msg)
 
-        if string.len(msg) > 0 then
-
-
-
-            local code = msg
-            local size = math.sqrt(string.len(code))
-            print(size)
-            
-            
-            local isNativeDirection = true
-            local n = 1
-            
-            for i = 1,size do
-                for j = 1,size do
-                    local subs = string.sub(code, n, n)
-                    print(subs)
-                
-                    turtle.select(tonumber(subs))
-                    n = n + 1
-                    
-                    turtle.placeDown()
-                    
-                    if j ~= size then
-                        turtle.forward()
-                    end 
-                end 
-                
-                if isForward then
-                    turtle.turnRight()
-                    turtle.forward()
-                    turtle.turnRight()
-                else 
-                    turtle.turnLeft()
-                    turtle.forward()
-                    turtle.turnLeft()
-                end
-            
-            
-                isForward = not isForward
-            
-            
-            end
-
-
-
-            
+        -- If nothing in Buffer stop calculating the rest
+        if obj == nil then
+            return
         end
+
+        -- The Websocket sends an array with points
+        for i = 1, #obj do
+
+            local x = obj[i]["x"]
+            local y = obj[i]["y"]
+
+            turtle.dig()
+
+            -- Logs
+            print("index: " .. i .. "\nx: " .. x .. "\ny: " .. y)
+
+            MoveToThisPosition(x, y)
+
+            turtle.digDown()
+            turtle.select(tonumber(obj[i]["color"]))
+            turtle.placeDown()
+
+            print("Placed")
+
+        end
+
+        MoveToThisPosition(0, 0)
+        turnRight(0)
+        print("/////THE END/////")
     end
 end
