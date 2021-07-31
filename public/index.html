@@ -1,35 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="te">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000000;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 
-        canvas {
-            display: block;
-            margin: 0 auto;
-        }
-
-        #export-wrap {
-            display: block;
-            margin: 0 auto;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -40,160 +19,30 @@
             <button id="apply" onclick="apply()">apply</button>
         </div>
         <h1>
-            <button id='export'>Export</button>
-            <button onclick="pixelColor = 'red'">RED</button>
-            <button onclick="pixelColor = 'blue'">BLUE</button>
-            <button onclick="pixelColor = 'white'">WHITE</button>
+            <button class=" " id='export'>Export</button>
+            <button class=" " onclick="pixelColor = 'white'">white</button>
+            <button class=" " onclick="pixelColor = 'orange'">orange</button>
+            <button class=" " onclick="pixelColor = 'magenta'">magenta</button>
+            <button class=" " onclick="pixelColor = 'dodgerblue'">lightblue</button>
+            <button class=" " onclick="pixelColor = 'yellow'">yellow</button>
+            <button class=" " onclick="pixelColor = 'lime'">lime</button>
+            <button class=" " onclick="pixelColor = 'pink'">pink</button>
+            <button class=" " onclick="pixelColor = 'gray'">gray</button>
+            <button class=" " onclick="pixelColor = 'lightgray'">lightgray</button>
+            <button class=" " onclick="pixelColor = 'cyan'">cyan</button>
+            <button class=" " onclick="pixelColor = 'purple'">purple</button>
+            <button class=" " onclick="pixelColor = 'blue'">blue</button>
+            <button class=" " onclick="pixelColor = 'SaddleBrown'">brown</button>
+            <button class=" " onclick="pixelColor = 'green'">green</button>
+            <button class=" " onclick="pixelColor = 'red'">red</button>
+            <button class=" " onclick="pixelColor = 'black'">black</button>
+
+
         </h1>
         <textarea id='data' rows='12' cols=100></textarea>
     </div>
-    <script>
-
-        var pixelWidth = 256,
-            pixelHeight = 256,
-            cursorOffset = 20,
-            cursorLineW = 2,
-            pixelColor = 'blue',
-            drawPos = [];
-        var mouse = {};
-        var oldTime, delta;
-        var canvas = document.getElementsByTagName('canvas')[0];
-        var exportBtn = document.getElementById('export');
-        var ctx = canvas.getContext('2d');
-
-        canvas.width = 512;
-        canvas.height = 512;
-
-        function drawGrid() {
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(150, 150, 150, 0.75)';
-            var x = 0, y = 0;
-            while (x <= canvas.width) {
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, canvas.height);
-                x += pixelWidth;
-            }
-            while (y <= canvas.height) {
-                ctx.moveTo(0, y);
-                ctx.lineTo(canvas.width, y);
-                y += pixelHeight;
-            }
-            ctx.stroke();
-        }
-
-        function getMousePos(event) {
-            var rect = canvas.getBoundingClientRect();
-            return {
-                x: (Math.round((event.clientX - rect.left - (pixelWidth / 2)) / pixelWidth) * pixelWidth),
-                y: (Math.round((event.clientY - rect.top - (pixelHeight / 2)) / pixelHeight) * pixelHeight)
-            };
-        }
-
-        function clearCanvas() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function drawImage() {
-            var p = 0;
-            while (p < drawPos.length) {
-                ctx.fillStyle = drawPos[p].color || pixelColor;
-                ctx.fillRect(drawPos[p].x, drawPos[p].y, pixelWidth, pixelHeight);
-                p++;
-            }
-        }
-
-        function drawMouse() {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-            ctx.fillRect(mouse.x, mouse.y, pixelWidth, cursorLineW);
-            ctx.fillRect(mouse.x, mouse.y, cursorLineW, pixelHeight);
-
-            ctx.fillStyle = pixelColor;
-            ctx.fillRect(mouse.x + cursorLineW, mouse.y + cursorLineW, pixelWidth - cursorOffset, pixelHeight - cursorOffset);
-        }
-
-        function render() {
-            clearCanvas();
-            drawGrid();
-            drawImage();
-            drawMouse();
-            window.requestAnimationFrame(render);
-        }
-        window.requestAnimationFrame(render);
-
-        canvas.addEventListener('mousemove', recordMouseMovement);
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('contextmenu', clearPixel);
-
-        exportBtn.addEventListener('mouseup', function (event) { exportImage(); });
-
-        function recordMouseMovement(event) {
-            mouse = getMousePos(event);
-        }
-
-        function startDrawing(event) {
-            if (event.button == 0) {
-                mark = setInterval(function () {
-                    var pos = mouse;
-                    if (drawPos.length > 1 && drawPos.slice(-1)[0].x == pos.x && drawPos.slice(-1)[0].y == pos.y) { }
-                    else {
-                        pos['color'] = pixelColor;
-                        drawPos.push(pos);
-                    }
-                }, 10);
-            }
-        }
-
-        function stopDrawing(event) {
-            clearInterval(mark);
-        }
-
-        function clearPixel(event) {
-            event.preventDefault();
-            var savedPos = drawPos.filter(function (savedPos) { return !(savedPos.x == mouse.x && savedPos.y == mouse.y); });
-            drawPos = savedPos;
-            return false;
-        }
-
-        const apply = () => {
-            pixelWidth = canvas.width / document.getElementById("size").value
-            pixelHeight = canvas.height / document.getElementById("size").value
-            drawPos.length = 0
-        }
 
 
-
-        function exportImage() {
-            var p = 0;
-            while (p < drawPos.length) {
-                drawPos[p].width = pixelWidth;
-                drawPos[p].height = pixelHeight;
-                p++;
-            }
-
-            // DrawPos Copys the first element thats why i put shift in here
-            drawPos.shift()
-
-            var resp = JSON.stringify(drawPos);
-            sendData(resp)
-            document.getElementById('data').innerHTML = resp;
-            drawPos.length = 0
-        }
-
-
-        const ws = new WebSocket("ws://192.168.2.169:8080")
-
-        ws.addEventListener("message", msg => {
-            console.log(msg.data)
-        })
-
-        const sendData = data => ws.send(data)
-
-
-
-
-    </script>
 </body>
 
 </html>
