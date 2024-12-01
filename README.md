@@ -1,5 +1,7 @@
 ﻿# MinecraftPaint
 
+![vid](./public/image.png)
+
 A Node Project that allows you to paint in your Browser and let a Mining Turtle draw your canvas in Minecraft
 
 ## Installation
